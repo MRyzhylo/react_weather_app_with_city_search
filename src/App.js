@@ -14,7 +14,7 @@ function App() {
   
   useEffect(()=>{
     getWeatherInfoAction();
-  },{});
+  },[]);
 
   const getWeatherInfo = (e) => {
     e.preventDefault();
@@ -24,7 +24,6 @@ function App() {
       getWeatherInfoAction(city);
     }
   }
-
   
   let details = '';
   
@@ -32,9 +31,11 @@ function App() {
       let iconUrl =`http://openweathermap.org/img/wn/${weatherSelector.weatherinfo.weather[0].icon}@2x.png`
       details = 
       <div>
-        <h4>Weather Details</h4>
+        <h4>Weather Details :</h4>
         <p> {weatherSelector.weatherinfo.name}, <span> {weatherSelector.weatherinfo.sys.country} </span> </p>
         <p> {parseInt(weatherSelector.weatherinfo.main.temp)} &deg;C </p>
+        <p> min: {parseInt(weatherSelector.weatherinfo.main.temp_min)} &deg;C </p>
+        <p> max: {parseInt(weatherSelector.weatherinfo.main.temp_max)} &deg;C </p>
         <img src={iconUrl} alt="weather-icon" />
         <p> {weatherSelector.weatherinfo.weather[0].main} </p>
       </div>
@@ -43,19 +44,19 @@ function App() {
     <p> You need to tape city name or this city doesn`t exist </p>
     }
 
-
   return (
     <React.Fragment>
     <div className="App">
-      <h1>React-redux weather app</h1>
+      <h1>City weather</h1>
     
-    <form onSubmit={getWeatherInfo}>
+    <form autocomplete="off" onSubmit={getWeatherInfo}>
       <div className='control'>
         <input type='text' name='name' placeholder='Enter city name' onChange={(e)=>setCity(e.target.value)}/>
       </div>
-        <input type='submit' value='Check Weather' />
+        <input className='btn' type='submit' value='Check Weather' />
+        {details}
     </form>
-    {details}
+    
     </div>  
     </React.Fragment>
   );
